@@ -5,7 +5,7 @@ public class Fan
 	public static final int SLOW = 1;
 	public static final int MEDIUM = 2;
 	public static final int FAST = 3;
-
+	
 	private int speed; // (SLOW, MEDIUM, FAST)
 	private boolean isOn;
 	private double radius;
@@ -39,7 +39,8 @@ public class Fan
 		if (speed == SLOW || speed == MEDIUM || speed == FAST)
 		{
 			this.speed = speed;
-		} else
+		} 
+		else
 		{
 			throw new IllegalArgumentException("Speed Must be between 1 and 3");
 		}
