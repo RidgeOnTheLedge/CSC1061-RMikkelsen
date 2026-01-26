@@ -1,4 +1,5 @@
 
+
 public class Driver
 {
 
@@ -13,6 +14,9 @@ public class Driver
 		System.out.println(car2);
 		car2.drive(10);
 		
+		car2.setRadio(6, true);
+		car2.getRadio().setVolume(6);
+		System.out.println(car2.getRadio().getVolume());
 	}
 
 }

@@ -1,7 +1,6 @@
 
 public class HourlyEmployee extends Employee
 {
-
 	private double hourlyWage;
 	private int hours;
 	
