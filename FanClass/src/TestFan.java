@@ -9,7 +9,7 @@ public class TestFan
 
 		/// Set fan 1 values
 		fan1.setSpeed(Fan.FAST);
-		fan1.setRadius(5);
+		fan1.setRadius(10);
 		fan1.setColor("yellow");
 		fan1.setOn(true);
 		// Set fan 2 values

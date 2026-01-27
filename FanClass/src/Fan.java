@@ -98,9 +98,9 @@ public class Fan
 	{
 		if (isOn)
 		{
-			return "Fan " + id + " [fan is on, " + "speed=" + speed + ", radius=" + radius + ", color=" + color + "]";
+			return "Fan id: " + id + " [fan is on, " + "speed=" + speed + ", radius=" + radius + ", color=" + color + "]";
 		}
 
-		return "Fan " + id + " [" + "fan is off" + ", radius=" + radius + ", color=" + color + "]";
+		return "Fan id: " + id + " [" + "fan is off" + ", radius=" + radius + ", color=" + color + "]";
 	}
 }
