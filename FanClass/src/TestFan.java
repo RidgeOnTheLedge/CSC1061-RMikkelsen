@@ -1,7 +1,6 @@
 
 public class TestFan
 {
-
 	public static void main(String[] args)
 	{
 		Fan fan1 = new Fan();
