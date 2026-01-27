@@ -102,13 +102,14 @@ public class AccountsPayable
 			payableEmployees[i] = emp;
 		}
 	}
-
+	
+	// Print employee invoking the toString
 	private static void printEmpToString(Employee emp)
 	{
 		System.out.println(emp);
 	}
 
-	// Print out the employee object without toString
+	// Print out the employee object using getters
 	private static void printEmp(Employee emp)
 	{
 		System.out.println("First Name: " + emp.getFirstName());
@@ -116,7 +117,8 @@ public class AccountsPayable
 		System.out.println("Social Security Number: " + emp.getSocialSecurityNumber());
 		System.out.println("Payment Amount: " + emp.getPaymentAmount());
 	}
-
+	
+	// Print all employees in an array. 
 	private static void printAllEmployees(Employee[] payableEmployees)
 	{
 		for (Employee e : payableEmployees)
