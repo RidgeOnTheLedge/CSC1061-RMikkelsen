@@ -44,8 +44,9 @@ public class AccountsPayable
 
 		for (int i = 0; i < payableEmployees.length; i++)
 		{	
-			System.out.println("Enter Employee Type (1-4)" + "\n1) Salaried Employee" + "\n2) Commission Employee"
-					+ "\n3) Base Plus Commission Employee" + "\n4) Hourly Employee");
+			System.out.println("Enter Employee Type (1-4)" + "\n1) Salaried Employee"
+					+ "\n2) Commission Employee" + "\n3) Base Plus Commission Employee" 
+					+ "\n4) Hourly Employee");
 			int userNum = scanner.nextInt();
 
 			System.out.println("First Name: ");
@@ -63,7 +64,8 @@ public class AccountsPayable
 			{
 				System.out.println("Enter Weekly Salary: ");
 				double weeklySalary = scanner.nextDouble();
-				emp = new SalariedEmployee(firstName, lastName, socialSecurityNumber, weeklySalary);
+				emp = new SalariedEmployee(firstName, lastName, 
+						socialSecurityNumber, weeklySalary);
 			} 
 			else if (userNum == 2 || userNum == 3)
 			{
@@ -77,12 +79,14 @@ public class AccountsPayable
 				{
 					System.out.println("Enter Base Pay: ");
 					double basePay = scanner.nextDouble();
-					emp = new BasePlusCommissionEmployee(firstName, lastName, socialSecurityNumber, grossSales,
-							commissionRate, basePay);
+					emp = new BasePlusCommissionEmployee(firstName, lastName, 
+							socialSecurityNumber, grossSales, commissionRate,
+							basePay);
 				} 
 				else
 				{
-					emp = new CommissionEmployee(firstName, lastName, socialSecurityNumber, grossSales, commissionRate);
+					emp = new CommissionEmployee(firstName, lastName, 
+							socialSecurityNumber, grossSales, commissionRate);
 				}
 			}
 			else if (userNum == 4)
@@ -92,7 +96,8 @@ public class AccountsPayable
 				System.out.println("Enter Hourly Wage: ");
 				double hourlyWage = scanner.nextDouble();
 
-				emp = new HourlyEmployee(firstName, lastName, socialSecurityNumber, hourlyWage, hours);
+				emp = new HourlyEmployee(firstName, lastName, 
+						socialSecurityNumber, hourlyWage, hours);
 			}
 			else
 			{
@@ -114,7 +119,8 @@ public class AccountsPayable
 	{
 		System.out.println("First Name: " + emp.getFirstName());
 		System.out.println("Last Name: " + emp.getLastName());
-		System.out.println("Social Security Number: " + emp.getSocialSecurityNumber());
+		System.out.println("Social Security Number: " + 
+				emp.getSocialSecurityNumber());
 		System.out.println("Payment Amount: " + emp.getPaymentAmount());
 	}
 	

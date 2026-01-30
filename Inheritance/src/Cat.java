@@ -33,6 +33,7 @@ public class Cat extends Animal
 		this.whiskerLength = whiskerLength;
 	}
 
+	
 	@Override
 	public String toString()
 	{

@@ -6,19 +6,28 @@ public class RealTimeRemoteCourse extends OnlineCourse
 	public RealTimeRemoteCourse()
 	{
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public RealTimeRemoteCourse(String courseNum, int numStudents, int maxStudents, int credits)
+	public RealTimeRemoteCourse(String courseNum, int numStudents, int maxStudents, int credits, String zoomInfo)
 	{
 		super(courseNum, numStudents, maxStudents, credits);
-		// TODO Auto-generated constructor stub
+		this.zoomInfo = zoomInfo;
 	}
 
+	public String getZoomInfo()
+	{
+		return zoomInfo;
+	}
+
+	public void setZoomInfo(String zoomInfo)
+	{
+		this.zoomInfo = zoomInfo;
+	}
+	
 	@Override
 	public String toString()
 	{
-		return "RealTimeRemoteCourse [zoomInfo=" + zoomInfo + ", toString()=" + super.toString() + "]";
+		return "Type: Real Time Remote Course \nZoom Info: " + zoomInfo + super.toString();
 	}
 	
 	

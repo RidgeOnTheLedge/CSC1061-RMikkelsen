@@ -6,7 +6,6 @@ public class InPersonCourse extends Course
 	public InPersonCourse()
 	{
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public InPersonCourse(String courseNum, int numStudents, int maxStudents, int credits, String roomNum)
@@ -15,10 +14,21 @@ public class InPersonCourse extends Course
 		this.roomNum = roomNum;
 	}
 
+	
+	public String getRoomNum()
+	{
+		return roomNum;
+	}
+
+	public void setRoomNum(String roomNum)
+	{
+		this.roomNum = roomNum;
+	}
+
 	@Override
 	public String toString()
 	{
-		return "InPersonCourse [roomNum=" + roomNum + ", toString()=" + super.toString() + "]";
+		return "Type: In Person Course \nRoom Num: " + roomNum + super.toString();
 	}
 	
 	

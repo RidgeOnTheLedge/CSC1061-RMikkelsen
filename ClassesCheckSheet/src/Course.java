@@ -11,7 +11,8 @@ public class Course
 		
 	}
 
-	public Course(String courseNum, int numStudents, int maxStudents, int credits)
+	public Course(String courseNum, int numStudents, int maxStudents, 
+			int credits)
 	{
 		super();
 		this.courseNum = courseNum;
@@ -20,11 +21,53 @@ public class Course
 		this.credits = credits;
 	}
 
+	
+	public String getCourseNum()
+	{
+		return courseNum;
+	}
+
+	public void setCourseNum(String courseNum)
+	{
+		this.courseNum = courseNum;
+	}
+
+	public int getNumStudents()
+	{
+		return numStudents;
+	}
+
+	public void setNumStudents(int numStudents)
+	{
+		this.numStudents = numStudents;
+	}
+
+	public int getMaxStudents()
+	{
+		return maxStudents;
+	}
+
+	public void setMaxStudents(int maxStudents)
+	{
+		this.maxStudents = maxStudents;
+	}
+
+	public int getCredits()
+	{
+		return credits;
+	}
+
+	public void setCredits(int credits)
+	{
+		this.credits = credits;
+	}
+
 	@Override
 	public String toString()
 	{
-		return "Course \ncourseNum=" + courseNum + ", \nnumStudents=" + numStudents + ", \nmaxStudents=" + maxStudents
-				+ ", \ncredits=" + credits;
+		return "\nCourse Num: " + courseNum + ", \nNum Students: " + 
+				numStudents + ", \nMax Students: " + maxStudents + 
+				", \nCredits: " + credits + "\n";
 	}
 	
 	

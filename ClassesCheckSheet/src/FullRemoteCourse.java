@@ -6,19 +6,19 @@ public class FullRemoteCourse extends OnlineCourse
 	public FullRemoteCourse()
 	{
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
-	public FullRemoteCourse(String courseNum, int numStudents, int maxStudents, int credits, String courseContact)
+	public FullRemoteCourse(String courseNum, int numStudents, int maxStudents, 
+			int credits, String courseContact)
 	{
 		super(courseNum, numStudents, maxStudents, credits);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String toString()
 	{
-		return "FullRemoteCourse [courseContact=" + courseContact + ", toString()=" + super.toString() + "]";
+		return "Type: Full Remote Course \nCourse Contact: " + 
+				courseContact + super.toString();
 	}
 	
 	
