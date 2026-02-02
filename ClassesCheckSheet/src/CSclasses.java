@@ -29,7 +29,7 @@ public class CSclasses
 
 		int courseAmount = 3;
 
-		
+		//
 		for (int i = 0; i < courseAmount; i++)
 		{
 			Course course = null;
