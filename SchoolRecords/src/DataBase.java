@@ -38,7 +38,6 @@ public class DataBase
 			} 
 			catch (IOException e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
