@@ -36,11 +36,20 @@ public class FileRead
 		{
 			System.out.println(e.getMessage());
 			System.exit(-1);
-		}		
+		}
 	}
 	
 	public static void addOne(int[] nums, int index)
 	{
-		nums[index]++;
+		if(index >= nums.length)
+		{
+			throw new ArrayIndexOutOfBoundsException("Index: " + index + 
+					" exceeds length of array " + nums.length);
+		}
+		else
+		{
+			nums[index]++;
+		}
+		
 	}
 }
