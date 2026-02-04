@@ -15,5 +15,7 @@ public class TestGeometricObject
 		Database db = new Database();
 		db.write(cir1);
 		db.write(rect1);
+		GeometricObject ob = db.readObject();
+		System.out.println(ob);
 	}
 }

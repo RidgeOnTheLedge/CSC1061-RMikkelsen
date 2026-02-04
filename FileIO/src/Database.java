@@ -60,4 +60,35 @@ public class Database
 		printer.println();
 		printer.flush();
 	}
+	
+	public GeometricObject readObject()
+	{
+		String line;
+		if(reader.hasNext())
+		{
+			line = reader.next();
+			
+		}
+		else
+		{
+			return null;
+		}
+		
+		String[] tokens = line.split(",");
+		
+		GeometricObject obj = null;
+		if(tokens[0].equals("Circle"))
+		{
+			obj = new Circle(tokens[1], 
+					Boolean.parseBoolean(tokens[2]), 
+					Double.parseDouble(tokens[3]));
+		}
+		else if (tokens[0].equals("Rectangle"))
+		{
+			obj = new Rectangle();
+		}
+		
+		return obj;
+		
+	}
 }

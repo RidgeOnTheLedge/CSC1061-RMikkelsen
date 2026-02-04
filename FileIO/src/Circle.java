@@ -41,7 +41,7 @@ public class Circle extends GeometricObject
 		this.radius = radius;
 	}
 
-	public double getCircum()
+	public double getCircumf()
 	{
 		return 2 * Math.PI * radius;
 	}
