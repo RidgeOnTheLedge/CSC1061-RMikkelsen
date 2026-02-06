@@ -1,46 +1,54 @@
-	import java.io.FileReader;
+	import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class DataBase
 {	
 	public static final String FILE_NAME = "PersonDatabase.txt";
+	private File outFile;
+	private PrintWriter printer;
+	private Scanner reader;
 	
 	public static void main(String[] args)
 	{
-		DataBase db = new DataBase();
-
-		Person person = new Person();
-		Person person2 = new Person();
-		System.out.println(person);
-		db.writePerson(person);
-		db.writePerson(person2);
-		db.readDataBase();
+//		DataBase db = new DataBase();
+//
+//		Person person = new Person();
+//		Person person2 = new Person();
+//		System.out.println(person);
+//		db.writePerson(person);
+//		db.writePerson(person2);
+//		db.readDataBase();
 	}
 	
 	public DataBase()
 	{
 		Path path = Paths.get(FILE_NAME);
-		if(Files.exists(path))
+		if(!Files.exists(path))
 		{
-			System.out.println("File exists");
+			outFile = new File(FILE_NAME);
 		}
-		else 
+		
+		try
 		{
-			System.out.println("File does not Exist");
-			try
-			{
-				Files.createFile(path);
-			} 
-			catch (IOException e)
-			{
-				e.printStackTrace();
-			}
+			printer = new PrintWriter(outFile);
+			reader = new Scanner(outFile);
 		}
+		catch(IOException e)
+		{
+			System.out.println(e.getMessage());
+			System.out.println("Database could not be found");
+			System.exit(-1);
+		}
+
+
 	}
 	public void writePerson(Person person)
 	{	
@@ -56,13 +64,11 @@ public class DataBase
 	
 	public ArrayList<Person> readDataBase()
 	{
-		
 		try(FileReader reader = new FileReader(FILE_NAME))
 		{
 			int i;
 			while((i = reader.read()) != -1)
-			{
-				
+			{	
 				System.out.println((char) (i));
 			}
 		}

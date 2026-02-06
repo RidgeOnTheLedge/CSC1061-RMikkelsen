@@ -66,8 +66,7 @@ public class Database
 		String line;
 		if(reader.hasNext())
 		{
-			line = reader.next();
-			
+			line = reader.next();		
 		}
 		else
 		{
