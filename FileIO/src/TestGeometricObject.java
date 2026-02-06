@@ -3,6 +3,7 @@ public class TestGeometricObject
 {
 	public static void main(String[] args)
 	{
+		//
 		Circle cir1 = new Circle("Green", true, 1.0);
 		System.out.println("Area of cir1: " + cir1.getArea());
 		
