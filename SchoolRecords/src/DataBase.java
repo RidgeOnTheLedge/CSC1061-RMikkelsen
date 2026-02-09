@@ -1,6 +1,5 @@
 	import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
@@ -14,32 +13,15 @@ public class DataBase
 	public static final String FILE_NAME = "PersonDatabase.txt";
 	private File outFile;
 	private PrintWriter printer;
-	private Scanner reader;
-	
-	public static void main(String[] args)
-	{
-//		DataBase db = new DataBase();
-//
-//		Person person = new Person();
-//		Person person2 = new Person();
-//		System.out.println(person);
-//		db.writePerson(person);
-//		db.writePerson(person2);
-//		db.readDataBase();
-	}
-	
+		
 	public DataBase()
 	{
 		Path path = Paths.get(FILE_NAME);
-		if(!Files.exists(path))
-		{
-			outFile = new File(FILE_NAME);
-		}
-		
+		outFile = new File(FILE_NAME);
+
 		try
 		{
-			printer = new PrintWriter(outFile);
-			reader = new Scanner(outFile);
+			printer = new PrintWriter(outFile);	
 		}
 		catch(IOException e)
 		{
@@ -47,36 +29,75 @@ public class DataBase
 			System.out.println("Database could not be found");
 			System.exit(-1);
 		}
-
-
 	}
+
+	/**
+	 * Method calls the .toCVS instead of toString so you can format the 
+	 * to string without having it to work with .CVS
+	 * @param person
+	 */
 	public void writePerson(Person person)
 	{	
-		try(FileWriter writer = new FileWriter(FILE_NAME, true)) 
-		{			
-			writer.write(person.toString() + "\n");	
-			System.out.println("Complete");
-		} 
-		catch (IOException e) {
-			e.printStackTrace();
-		}	
+		printer.write(person.toCVS() + "\n");
+		printer.flush();
 	}
+
 	
 	public ArrayList<Person> readDataBase()
 	{
-		try(FileReader reader = new FileReader(FILE_NAME))
+		ArrayList<Person> personList = new ArrayList<Person>();
+		String line;
+			
+		try(Scanner reader = new Scanner(outFile);)
+		{			
+			while(reader.hasNext())
+			{
+				line = reader.nextLine();
+				// Make sure to not put , in the date, or else this will break
+				String[] tokens = line.split(","); 
+				
+				Person person = null;
+				
+				// Person class does not call className() in toString.
+				// Employee class does not call className() also.
+				if(tokens[0].equals("Student"))
+				{
+					person = new Student(tokens[1], tokens[2], 
+							tokens[3], tokens[4], tokens[5]);
+				}
+				else if(tokens[0].equals("Faculty"))
+				{
+					person = new Faculty(tokens[1], tokens[2], 
+							tokens[3], tokens[4],
+							Integer.parseInt(tokens[5]), 
+							Double.parseDouble(tokens[6]),
+							tokens[7], tokens[8], tokens[9]);		
+				}
+				else if(tokens[0].equals("Staff"))
+				{
+					person = new Staff(tokens[1], tokens[2], 
+							tokens[3], tokens[4],
+							Integer.parseInt(tokens[5]), 
+							Double.parseDouble(tokens[6]),
+							tokens[7], tokens[8]);
+				}
+				personList.add(person);
+			}		
+		} 
+		catch (FileNotFoundException e)
 		{
-			int i;
-			while((i = reader.read()) != -1)
-			{	
-				System.out.println((char) (i));
-			}
-		}
-		catch (IOException e)
-		{
-			e.printStackTrace();
+			System.out.println("Database Not found");
+			return null;
 		}
 		
-		return null;
+		return personList;
+	}
+	
+	public void close()
+	{
+		if(printer != null)
+		{
+			printer.close();
+		}
 	}
 }

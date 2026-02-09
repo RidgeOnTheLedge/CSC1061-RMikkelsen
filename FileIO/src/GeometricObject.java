@@ -47,8 +47,7 @@ public class GeometricObject
 	@Override
 	public String toString()
 	{
-		return " Color: " + color + ", Is Filled: " + isFilled + ", Date Created: " 
-				+ dateCreated;
+		return getColor() + "," + isFilled();
 	}
 	
 	

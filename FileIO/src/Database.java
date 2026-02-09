@@ -42,21 +42,22 @@ public class Database
 	// Methods
 	public void write(GeometricObject shape)
 	{
-		printer.print(shape.getClass().getName());
-		printer.print("," + shape.getColor());
-		printer.print("," + shape.isFilled());
-		if(shape instanceof Rectangle)
-		{
-			printer.print("," + ((Rectangle)shape).getArea());
-			printer.print("," + ((Rectangle)shape).getPerimeter());
-			printer.print("," + ((Rectangle)shape).getHeight());
-			printer.print("," + ((Rectangle)shape).getWidth());
-		}
-		else if(shape instanceof Circle)
-		{
-			printer.print("," + ((Circle)shape).getRadius());
-			printer.print("," + ((Circle)shape).getArea());
-		}
+		printer.print(shape.toString());
+//		printer.print(shape.getClass().getName());
+//		printer.print("," + shape.getColor());
+//		printer.print("," + shape.isFilled());
+//		if(shape instanceof Rectangle)
+//		{
+//			printer.print("," + ((Rectangle)shape).getArea());
+//			printer.print("," + ((Rectangle)shape).getPerimeter());
+//			printer.print("," + ((Rectangle)shape).getHeight());
+//			printer.print("," + ((Rectangle)shape).getWidth());
+//		}
+//		else if(shape instanceof Circle)
+//		{
+//			printer.print("," + ((Circle)shape).getRadius());
+//			printer.print("," + ((Circle)shape).getArea());
+//		}
 		printer.println();
 		printer.flush();
 	}

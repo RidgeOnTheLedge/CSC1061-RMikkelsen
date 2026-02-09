@@ -14,6 +14,8 @@ public class Circle extends GeometricObject
 		super(color, isFilled);
 		this.radius = radius;
 	}
+	
+	
 
 	public double getRadius()
 	{
@@ -48,7 +50,8 @@ public class Circle extends GeometricObject
 	@Override
 	public String toString()
 	{
-		return "Circle Radius: " + radius + " " + super.toString();
+		return this.getClass().getName() + "," + super.toString() + "," 
+				+ getRadius() + "," + getArea();
 	}
 	
 	

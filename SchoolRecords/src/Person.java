@@ -57,11 +57,15 @@ public class Person
 		this.emailAdd = emailAdd;
 	}
 
+	public String toCVS()
+	{
+		return name + "," + address + "," + phoneNum + "," + emailAdd;
+	}
+	
 	@Override
 	public String toString()
 	{
-		return " Person Name: " + name + ", Address" + address + ", Phone Num: " 
-				+ phoneNum + ", Email: " + emailAdd;
+		return name + "," + address + "," + phoneNum + "," + emailAdd;
 	}
 	
 	

@@ -45,11 +45,19 @@ public class Employee extends Person
 		this.dateHired = dateHired;
 	}
 
+	
+	@Override
+	public String toCVS()
+	{
+		return 	super.toString() + "," + office
+				+ "," + salary + "," + dateHired;
+	}
+	
 	@Override
 	public String toString()
 	{
-		return " Employee Office: " + office + ", Salary: " + salary 
-				+ ", Date Hired: " + dateHired +  super.toString();
+		return 	super.toString() + "," + office
+				+ "," + salary + "," + dateHired;
 	}
 	
 	
