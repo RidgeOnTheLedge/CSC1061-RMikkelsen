@@ -9,6 +9,6 @@ public class Bank extends FinancialInstitution
 	@Override
 	public double getInterestRate()
 	{
-		return 0;
+		return 0.06;
 	}
 }
