@@ -18,7 +18,7 @@ public abstract class Vehicle implements Feedable
 		System.out.println("This many gallons: " + numGallons);	
 	}
 
-	@Override
+	@Override   
 	public String toString()
 	{
 		return "Vehicle [color=" + color + ", id=" + id + "]";
