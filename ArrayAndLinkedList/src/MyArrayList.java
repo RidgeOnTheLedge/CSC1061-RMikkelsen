@@ -8,7 +8,6 @@ public class MyArrayList<T> implements List<T>
 	private T[] array;
 	private int size;
 	
-	
 	@SuppressWarnings("unchecked")
 	public MyArrayList()
 	{
@@ -19,7 +18,6 @@ public class MyArrayList<T> implements List<T>
 
 	@Override
 	public int size() {return size;}
-
 
 	@Override
 	public boolean isEmpty()
@@ -34,13 +32,37 @@ public class MyArrayList<T> implements List<T>
 		return false;
 	}
 
-
 	@Override
 	public Iterator<T> iterator()
-	{
-		return null;
+	{	
+		return new MyIterator();
 	}
+	
+	private class MyIterator implements Iterator<T>
+	{
+		private int index = 0;
+		
+		@Override
+		public boolean hasNext()
+		{	
+			if(index < size)
+			{
+				return true;
+			}	
+			
+			return false;		
+		}
 
+		@Override
+		public T next()
+		{
+			if(index >= size)
+			{
+				throw new IndexOutOfBoundsException("Index exceeds size");
+			}
+			return array[index++];
+		}
+	}
 
 	@Override
 	public Object[] toArray()
@@ -53,7 +75,7 @@ public class MyArrayList<T> implements List<T>
 	@Override
 	public <T> T[] toArray(T[] a)
 	{
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -81,8 +103,14 @@ public class MyArrayList<T> implements List<T>
 	@Override
 	public boolean remove(Object o)
 	{
-	
-		return false;
+		int index = indexOf(o);
+		if(index < 0)
+		{
+			return false;
+		}
+		
+		remove(index);
+		return true;
 	}
 
 
@@ -113,10 +141,13 @@ public class MyArrayList<T> implements List<T>
 	@Override
 	public boolean removeAll(Collection<?> c)
 	{
-		boolean flag = true;
+		boolean flag = false;
 		for (Object obj : c)
 		{
-			remove(obj);
+			if(remove(obj))
+			{
+				flag = true;
+			}
 		}
 		
 		return flag;
@@ -148,11 +179,9 @@ public class MyArrayList<T> implements List<T>
 		return array[index];
 	}
 
-
 	@Override
 	public T set(int index, T element)
-	{
-		
+	{	
 		if(index > size || index < 0)
 		{
 			throw new IndexOutOfBoundsException();
@@ -192,10 +221,9 @@ public class MyArrayList<T> implements List<T>
 		for (int i = index; i < size; i--)
 		{
 			array[i] = array[i + 1];
-		}
-	
+		}	
 		size--;
-		
+	
 		return old;
 	}
 
