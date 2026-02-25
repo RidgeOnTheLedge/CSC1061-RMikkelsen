@@ -2,19 +2,22 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.NoSuchElementException;
+
+import org.w3c.dom.Node;
 
 public class MyDoubleLinkedList<E> implements List<E>
 {
 	private Node head = null;
 	private Node tail = null;
 	private int size = 0;
-	
+
 	private class Node
 	{
 		public E data;
 		public Node next;
 		public Node prev;
-		
+
 		private Node(E data)
 		{
 			this.data = data;
@@ -31,8 +34,8 @@ public class MyDoubleLinkedList<E> implements List<E>
 
 	@Override
 	public boolean isEmpty()
-	{	
-		if(size > 0)
+	{
+		if (size > 0)
 		{
 			return false;
 		}
@@ -42,15 +45,14 @@ public class MyDoubleLinkedList<E> implements List<E>
 	@Override
 	public boolean contains(Object o)
 	{
-		// TODO Auto-generated method stub
+
 		return false;
 	}
 
 	@Override
 	public Iterator<E> iterator()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return new MyIterator();
 	}
 
 	@Override
@@ -71,27 +73,32 @@ public class MyDoubleLinkedList<E> implements List<E>
 	public boolean add(E e)
 	{
 		Node newNode = new Node(e);
-		if(head == null) // List is empty
+		if (head == null) // List is empty
 		{
 			// Assign both head and tail to the first Node
 			// In the list
-			head = newNode; 
-		}
-		else // Something else is in the list
+			head = newNode;
+		} else // Something else is in the list
 		{
 			tail.next = newNode;
-			newNode.prev = tail;	
-		}	
+			newNode.prev = tail;
+		}
 		tail = newNode;
-		size++;	
-		return true;		
+		size++;
+		return true;
 	}
 
 	@Override
 	public boolean remove(Object o)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		int index = indexOf(o);
+		if (index < 0)
+		{
+			return false;
+		}
+
+		remove(index);
+		return true;
 	}
 
 	@Override
@@ -134,16 +141,16 @@ public class MyDoubleLinkedList<E> implements List<E>
 	{
 		head = null;
 		tail = null;
-		size = 0;	
+		size = 0;
 	}
-	
+
 	private Node getNode(int index)
 	{
-		if(index < 0 || index >= size)
+		if (index < 0 || index >= size)
 		{
 			throw new IndexOutOfBoundsException("Bad index into list");
 		}
-		
+
 		Node node = head;
 		for (int i = 0; i < index; i++)
 		{
@@ -151,7 +158,7 @@ public class MyDoubleLinkedList<E> implements List<E>
 		}
 		return node;
 	}
-	
+
 	@Override
 	public E get(int index)
 	{
@@ -172,29 +179,28 @@ public class MyDoubleLinkedList<E> implements List<E>
 	public void add(int index, E element)
 	{
 		Node newNode = new Node(element);
-		
-		if(index == 0)
+
+		if (index == 0)
 		{
 			newNode.next = head;
 			head.prev = newNode;
-			if(tail == null)
+			if (tail == null)
 			{
 				tail = newNode;
 			}
 			head = newNode;
-		}
-		else
+		} else
 		{
 			Node prevNode = getNode(index - 1);
 			newNode.next = prevNode.next;
 			newNode.prev = prevNode;
 			prevNode.next = newNode;
-			
-			if(newNode.next != null)
+
+			if (newNode.next != null)
 			{
 				newNode.next.prev = newNode;
 			}
-			if(prevNode == tail)
+			if (prevNode == tail)
 			{
 				tail = newNode;
 			}
@@ -206,28 +212,26 @@ public class MyDoubleLinkedList<E> implements List<E>
 	public E remove(int index)
 	{
 		E data = get(index);
-		
-		if(index == 0)
+
+		if (index == 0)
 		{
-			if(head == tail)
+			if (head == tail)
 			{
 				tail = null;
 			}
 			head = head.next;
-			if(head != null)
+			if (head != null)
 			{
 				head.prev = null;
 			}
-		}
-		else
+		} else
 		{
 			Node prevNode = getNode(index - 1);
 			prevNode.next = prevNode.next.next;
-			if(prevNode.next != null)
+			if (prevNode.next != null)
 			{
 				prevNode.next.prev = prevNode;
-			}
-			else
+			} else
 			{
 				prevNode = tail;
 			}
@@ -242,7 +246,7 @@ public class MyDoubleLinkedList<E> implements List<E>
 		Node node = head;
 		for (int i = 0; i < size; i++)
 		{
-			if(((E)o).equals(node.data))
+			if (((E) o).equals(node.data))
 			{
 				return i;
 			}
@@ -253,21 +257,54 @@ public class MyDoubleLinkedList<E> implements List<E>
 	@Override
 	public int lastIndexOf(Object o)
 	{
-		// TODO Auto-generated method stub
+		Node node = tail;
+		for (int i = size - 1; i >= 0; i--)
+		{
+			if (((E) o).equals(node.data))
+			{
+				return i;
+			}
+		}
 		return 0;
 	}
 
 	@Override
 	public ListIterator<E> listIterator()
 	{
-		// TODO Auto-generated method stub
 		return null;
+	}
+
+	private class MyIterator implements Iterator<E>
+	{
+		private Node curNode = head;
+
+		@Override
+		public boolean hasNext()
+		{
+			if (curNode != null)
+			{
+				return true;
+			}
+			return false;
+		}
+
+		@Override
+		public E next()
+		{
+			if (hasNext())
+			{
+				E data = curNode.data;
+				curNode = curNode.next;
+				return data;
+			}
+			return null;
+		}
 	}
 
 	@Override
 	public ListIterator<E> listIterator(int index)
 	{
-		// TODO Auto-generated method stub
+
 		return null;
 	}
 
@@ -278,4 +315,3 @@ public class MyDoubleLinkedList<E> implements List<E>
 		return null;
 	}
 }
-
