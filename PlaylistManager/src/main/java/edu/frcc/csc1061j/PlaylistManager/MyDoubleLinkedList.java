@@ -6,13 +6,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-
 /**
  * @author downey
  * @param <E>
  *
  */
-public class MyDoubleLinkedList<E> implements List<E> {
+public class MyDoubleLinkedList<E> implements List<E>, Iterable<E>
+{
 
 	/**
 	 * Node is identical to ListNode from the example, but parameterized with T
@@ -20,76 +20,159 @@ public class MyDoubleLinkedList<E> implements List<E> {
 	 * @author downey
 	 *
 	 */
-	private class Node {
+	private class Node
+	{
 		public E data;
 		public Node next;
-		public Node prev;      // Doubly
+		public Node prev; // Doubly
 
-		public Node(E data) {
+		public Node(E data)
+		{
 			this.data = data;
 			this.next = null;
-			this.prev = null;     // Doubly
+			this.prev = null; // Doubly
 		}
+
 		@SuppressWarnings("unused")
-		public Node(E data, Node next) {
+		public Node(E data, Node next)
+		{
 			this.data = data;
 			this.next = next;
-			next.prev = this;    // Doubly
+			next.prev = this; // Doubly
 		}
-		public String toString() {
+
+		public String toString()
+		{
 			return "Node(" + data.toString() + ")";
 		}
 	}
 
-	private int size;            // keeps track of the number of elements
-	private Node head;           // reference to the first node
-	private Node tail;            // Doubly reference to the last node
+	private int size; // keeps track of the number of elements
+	private Node head; // reference to the first node
+	private Node tail; // Doubly reference to the last node
+
 	/**
 	 *
 	 */
-	public MyDoubleLinkedList() {
+	public MyDoubleLinkedList()
+	{
 		head = null;
-		tail = null;        // Doubly
+		tail = null; // Doubly
 		size = 0;
 	}
 
-	// IMPLEMENT
+	// Newly added Methods
+
+	/**
+	 * Uses string builder to print all data in the nodes
+	 */
 	@Override
-	public boolean add(E element) {
+	public String toString()
+	{
+		StringBuilder sb = new StringBuilder();
+		sb.append("[");
+
+		boolean first = true;
+		for (E element : this)
+		{
+			if (!first)
+			{
+				sb.append(", ");
+			}
+			sb.append(element);
+			first = false;
+		}
+
+		sb.append("]");
+
+		return sb.toString();
+	}
+
+	public void reverse()
+	{
+		if (head == null)
+			return; // List is empty
+
+		Node node = head;
+		Node temp = node;
+
+		// iterate through the list and swap
+		// each prev and next on the nodes
+		while (node != null)
+		{
+			temp = node.next;
+			node.next = node.prev;
+			node.prev = temp;
+
+			node = node.prev;
+		}
+		temp = head;
+		head = tail;
+		tail = temp;
+	}
+
+	/**
+	 * Count each node, normally just use size
+	 * 
+	 * @return count
+	 */
+	public int count()
+	{
+		// return size;
+		int count = 0;
+		Node node = head;
+		while (node != null)
+		{
+			count++;
+			node = node.next;
+		}
+		return count;
+	}
+
+	@Override
+	public boolean add(E element)
+	{
 		Node newNode = new Node(element);
-		if (head == null) {
+		if (head == null)
+		{
 			head = newNode;
-		} else {
+		} else
+		{
 			tail.next = newNode;
 			newNode.prev = tail;
 			tail = newNode;
-			
+
 //			Node node = head;
 //			// loop until the last node
 //			for ( ; node.next != null; node = node.next) {}
 //			node.next = new Node(element);
 		}
-		tail = newNode;    // Doubly
+		tail = newNode; // Doubly
 		size++;
 		return true;
 	}
 
 	// IMPLEMENT
 	@Override
-	public void add(int index, E element) {   
+	public void add(int index, E element)
+	{
 		Node newNode = new Node(element);
-		if (index == 0) {
+		if (index == 0)
+		{
 			newNode.next = head;
 			head.prev = newNode;
 			head = newNode;
-		} else {
+		} else
+		{
 			Node node = getNode(index - 1);
-			if (tail == node) {
+			if (tail == node)
+			{
 				tail = newNode;
 			}
 			newNode.next = node.next;
 			newNode.prev = node;
-			if (node.next != null) {
+			if (node.next != null)
+			{
 				node.next.prev = newNode;
 			}
 			node.next = newNode;
@@ -98,35 +181,43 @@ public class MyDoubleLinkedList<E> implements List<E> {
 	}
 
 	@Override
-	public boolean addAll(Collection<? extends E> collection) {
+	public boolean addAll(Collection<? extends E> collection)
+	{
 		boolean flag = true;
-		for (E element: collection) {
+		for (E element : collection)
+		{
 			flag &= add(element);
 		}
 		return flag;
 	}
 
 	@Override
-	public boolean addAll(int index, Collection<? extends E> collection) {
+	public boolean addAll(int index, Collection<? extends E> collection)
+	{
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public void clear() {
+	public void clear()
+	{
 		head = null;
 		tail = null;
 		size = 0;
 	}
 
 	@Override
-	public boolean contains(Object obj) {
+	public boolean contains(Object obj)
+	{
 		return indexOf(obj) != -1;
 	}
 
 	@Override
-	public boolean containsAll(Collection<?> collection) {
-		for (Object obj: collection) {
-			if (!contains(obj)) {
+	public boolean containsAll(Collection<?> collection)
+	{
+		for (Object obj : collection)
+		{
+			if (!contains(obj))
+			{
 				return false;
 			}
 		}
@@ -134,32 +225,41 @@ public class MyDoubleLinkedList<E> implements List<E> {
 	}
 
 	@Override
-	public E get(int index) {
+	public E get(int index)
+	{
 		Node node = getNode(index);
 		return node.data;
 	}
 
-	/** Returns the node at the given index.
+	/**
+	 * Returns the node at the given index.
+	 * 
 	 * @param index
 	 * @return
 	 */
-	private Node getNode(int index) {
-		if (index < 0 || index >= size) {
+	private Node getNode(int index)
+	{
+		if (index < 0 || index >= size)
+		{
 			throw new IndexOutOfBoundsException();
 		}
 		Node node = head;
-		for (int i=0; i<index; i++) {
+		for (int i = 0; i < index; i++)
+		{
 			node = node.next;
 		}
 		return node;
 	}
 
 	@Override
-	public int indexOf(Object target) {
+	public int indexOf(Object target)
+	{
 		// TODO: FILL THIS IN!
 		Node node = head;
-		for (int i = 0; i < size; i++) {
-			if (equals(target, node.data)) {
+		for (int i = 0; i < size; i++)
+		{
+			if (equals(target, node.data))
+			{
 				return i;
 			}
 			node = node.next;
@@ -167,38 +267,85 @@ public class MyDoubleLinkedList<E> implements List<E> {
 		return -1;
 	}
 
-	/** Checks whether an element of the array is the target.
+	/**
+	 * Checks whether an element of the array is the target.
 	 *
 	 * Handles the special case that the target is null.
 	 *
 	 * @param target
 	 * @param object
 	 */
-	private boolean equals(Object target, Object element) {
-		if (target == null) {
+	private boolean equals(Object target, Object element)
+	{
+		if (target == null)
+		{
 			return element == null;
-		} else {
+		} else
+		{
 			return target.equals(element);
 		}
 	}
 
 	@Override
-	public boolean isEmpty() {
+	public boolean isEmpty()
+	{
 		return size == 0;
 	}
 
 	@Override
-	public Iterator<E> iterator() {
-		E[] array = (E[]) toArray();
-		return Arrays.asList(array).iterator();
+	public Iterator<E> iterator()
+	{
+		return new ListIterator(head);
+	}
+
+	private class ListIterator implements Iterator<E>
+	{
+		Node current;
+
+		public ListIterator(Node current)
+		{
+			this.current = current;
+		}
+
+		@Override
+		public boolean hasNext()
+		{
+			return current != null;
+		}
+
+		@Override
+		public E next()
+		{
+			E value = current.data;
+			current = current.next;
+			return value;
+		}
+
 	}
 
 	@Override
-	public int lastIndexOf(Object target) {
+	public java.util.ListIterator<E> listIterator()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public java.util.ListIterator<E> listIterator(int index)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int lastIndexOf(Object target)
+	{
 		Node node = head;
 		int index = -1;
-		for (int i=0; i<size; i++) {
-			if (equals(target, node.data)) {
+		for (int i = 0; i < size; i++)
+		{
+			if (equals(target, node.data))
+			{
 				index = i;
 			}
 			node = node.next;
@@ -206,42 +353,40 @@ public class MyDoubleLinkedList<E> implements List<E> {
 		return index;
 	}
 
-	@Override
-	public ListIterator<E> listIterator() {
-		return null;
-	}
-
-	@Override
-	public ListIterator<E> listIterator(int index) {
-		return null;
-	}
-
 	// IMPLEMENT
 	@Override
-	public boolean remove(Object obj) {
+	public boolean remove(Object obj)
+	{
 		Node node = head;
-		for (int i = 0; i < size; i++) {
-			if (equals(obj, node.data)) {
+		for (int i = 0; i < size; i++)
+		{
+			if (equals(obj, node.data))
+			{
 				break;
 			}
 			node = node.next;
 		}
-		if (node == null) {
+		if (node == null)
+		{
 			return false;
 		}
-		if (head == node) {
-			if (tail == head) {
+		if (head == node)
+		{
+			if (tail == head)
+			{
 				tail = null;
 			}
 			head = head.next;
 			head.prev = null;
-		}
-		else {
-			if (node == tail) {
+		} else
+		{
+			if (node == tail)
+			{
 				tail = node.prev;
 			}
 			node.prev.next = node.next;
-			if (node.next != null) {
+			if (node.next != null)
+			{
 				node.next.prev = node.prev;
 			}
 		}
@@ -249,49 +394,59 @@ public class MyDoubleLinkedList<E> implements List<E> {
 		return true;
 	}
 
-	//IMPLEMENT
+	// IMPLEMENT
 	@Override
-	public E remove(int index) {
-		//TODO: FILL THIS IN!
+	public E remove(int index)
+	{
+		// TODO: FILL THIS IN!
 		E element = get(index);
-		if (index == 0) {
-			if (tail == head) {
+		if (index == 0)
+		{
+			if (tail == head)
+			{
 				tail = null;
 			}
 			head = head.next;
 			head.prev = null;
-		} else {
+		} else
+		{
 			Node node = getNode(index - 1);
-			if (node.next == tail) {
+			if (node.next == tail)
+			{
 				tail = node;
 			}
 			node.next = node.next.next;
-			if (node.next != null) {
+			if (node.next != null)
+			{
 				node.next.prev = node;
 			}
 		}
 		size--;
 		return element;
-		
-		//return null;
+
+		// return null;
 	}
 
 	@Override
-	public boolean removeAll(Collection<?> collection) {
+	public boolean removeAll(Collection<?> collection)
+	{
 		boolean flag = true;
-		for (Object obj: collection) {
+		for (Object obj : collection)
+		{
 			flag &= remove(obj);
 		}
 		return flag;
 	}
 
 	@Override
-	public boolean retainAll(Collection<?> collection) {
+	public boolean retainAll(Collection<?> collection)
+	{
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public E set(int index, E element) {
+	public E set(int index, E element)
+	{
 		Node node = getNode(index);
 		E old = node.data;
 		node.data = element;
@@ -299,20 +454,25 @@ public class MyDoubleLinkedList<E> implements List<E> {
 	}
 
 	@Override
-	public int size() {
+	public int size()
+	{
 		return size;
 	}
 
 	@Override
-	public List<E> subList(int fromIndex, int toIndex) {
-		if (fromIndex < 0 || toIndex >= size || fromIndex > toIndex) {
+	public List<E> subList(int fromIndex, int toIndex)
+	{
+		if (fromIndex < 0 || toIndex >= size || fromIndex > toIndex)
+		{
 			throw new IndexOutOfBoundsException();
 		}
 		// TODO: classify this and improve it.
 		int i = 0;
 		MyDoubleLinkedList<E> list = new MyDoubleLinkedList<E>();
-		for (Node node=head; node != null; node = node.next) {
-			if (i >= fromIndex && i <= toIndex) {
+		for (Node node = head; node != null; node = node.next)
+		{
+			if (i >= fromIndex && i <= toIndex)
+			{
 				list.add(node.data);
 			}
 			i++;
@@ -321,10 +481,12 @@ public class MyDoubleLinkedList<E> implements List<E> {
 	}
 
 	@Override
-	public Object[] toArray() {
+	public Object[] toArray()
+	{
 		Object[] array = new Object[size];
 		int i = 0;
-		for (Node node=head; node != null; node = node.next) {
+		for (Node node = head; node != null; node = node.next)
+		{
 			// System.out.println(node);
 			array[i] = node.data;
 			i++;
@@ -333,7 +495,8 @@ public class MyDoubleLinkedList<E> implements List<E> {
 	}
 
 	@Override
-	public <T> T[] toArray(T[] a) {
+	public <T> T[] toArray(T[] a)
+	{
 		throw new UnsupportedOperationException();
 	}
 

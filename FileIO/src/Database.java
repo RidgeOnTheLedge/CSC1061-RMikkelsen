@@ -9,36 +9,34 @@ public class Database
 	private File outFile = new File("database.csv");
 	private PrintWriter printer;
 	private Scanner reader;
-	
-	public Database() 
+
+	public Database()
 	{
 		try
-		{ 
-			if(!outFile.exists())
+		{
+			if (!outFile.exists())
 			{
 				outFile.createNewFile();
 			}
-		}
-		catch(IOException e)
+		} catch (IOException e)
 		{
 			System.out.println(e.getMessage());
 			System.out.println("Database could not be created");
 			System.exit(-1);
 		}
 
-		try 
+		try
 		{
 			printer = new PrintWriter(outFile.getName());
 			reader = new Scanner(outFile);
-		}
-		catch(FileNotFoundException e)
+		} catch (FileNotFoundException e)
 		{
 			System.out.println(e.getMessage());
 			System.out.println("Database could not be found");
 			System.exit(-1);
 		}
 	}
-	
+
 	// Methods
 	public void write(GeometricObject shape)
 	{
@@ -61,34 +59,31 @@ public class Database
 		printer.println();
 		printer.flush();
 	}
-	
+
 	public GeometricObject readObject()
 	{
 		String line;
-		if(reader.hasNext())
+		if (reader.hasNext())
 		{
-			line = reader.next();		
-		}
+			line = reader.next();
+		} 
 		else
 		{
 			return null;
 		}
 		
 		String[] tokens = line.split(",");
-		
+
 		GeometricObject obj = null;
-		if(tokens[0].equals("Circle"))
+		if (tokens[0].equals("Circle"))
 		{
-			obj = new Circle(tokens[1], 
-					Boolean.parseBoolean(tokens[2]), 
-					Double.parseDouble(tokens[3]));
-		}
-		else if (tokens[0].equals("Rectangle"))
+			obj = new Circle(tokens[1], Boolean.parseBoolean(tokens[2]), Double.parseDouble(tokens[3]));
+		} else if (tokens[0].equals("Rectangle"))
 		{
 			obj = new Rectangle();
 		}
-		
+
 		return obj;
-		
+
 	}
 }
