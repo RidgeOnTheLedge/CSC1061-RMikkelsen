@@ -2,52 +2,78 @@ package edu.frcc.csc1061j.PlaylistManager;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class TestPlaylist
 {
-
+	private static Scanner scnr = new Scanner(System.in);
 	public static void main(String[] args)
 	{
-		Song song1 = new Song("Song", "Artist");
-		Song song2 = new Song("Yellow", "Blue");
-		Song song3 = new Song("Song", "Singer");
-		Song song4 = new Song("Title", "Artist");
+		PlayListManager playlistM = new PlayListManager();
+		System.out.println("Play List Manager");
+		System.out.println("Select Options by Entering a Number");
+		System.out.println("Select Options:\n1. Load Playlist 2. Save Playlist\n3. Add Song "
+				+ "     4. Play \n5. Shuffle       6. Reverse\n7. Remove Song   8. Song Count \n9. Exit");
 
-		PlayListManager playlistM = new PlayListManager(song1);
-
-		playlistM.add(song2);
-		playlistM.add(song3);
-		playlistM.add(song4);
-
-		playlistM.play();
-		playlistM.shuffle();
-		playlistM.play();
-		playlistM.getPlaylist().reverse();
-		playlistM.play();
-		System.out.println();
-		System.out.print(playlistM.toString());
-
-		System.out.println(playlistM.getPlaylist().count());
-		System.out.println(playlistM.getPlaylist().size());
-
-		try
+		int userInput = scnr.nextInt();
+		scnr.nextLine();
+		while(userInput != 9)
 		{
-			playlistM.savePlaylist();
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// Each Case comes from userInput,
+			// Could switch numbers with constants
+			switch (userInput) {
+			case 1:
+			{
+				playlistM.loadPlaylist(scnr);
+				break;
+			}
+			case 2:
+			{
+				playlistM.savePlaylist(scnr);
+				break;
+			}
+			case 3:
+			{
+				playlistM.add(scnr);
+				break;
+			}
+			case 4:
+			{
+				playlistM.play();
+				break;
+			}
+			case 5:
+			{
+				playlistM.shuffle();
+				break;
+			}
+			case 6:
+			{
+				playlistM.getPlaylist().reverse();
+				break;
+			}
+			case 7:
+			{
+				playlistM.remove(scnr);
+				break;
+			}
+			case 8:
+			{
+				System.out.println("Song Count: " + playlistM.getPlaylist().count());
+				break;
+			}
+			default:
+			{
+				break;
+			}
+			}
+			
+			System.out.println("Select Options:\n1. Load Playlist \n2. Save Playlist\n3. Add Song "
+					+ "\n4. Play \n5. Shuffle \n6. Reverse\n7. Remove Song \n8. Exit");
+			userInput = scnr.nextInt();
+			scnr.nextLine();
 		}
-
-		try
-		{
-			playlistM.loadSong();
-		} catch (FileNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		playlistM.play();
+		scnr.close();
 	}
+
 }

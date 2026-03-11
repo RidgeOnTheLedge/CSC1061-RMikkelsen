@@ -1,10 +1,12 @@
 package edu.frcc.csc1061j.BookTree;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Queue;
 
 public class BookTree implements Iterable<BookNode>
 {
@@ -109,10 +111,45 @@ public class BookTree implements Iterable<BookNode>
 			{
 				stack.push(child);
 			}
-			
+
 			return node;
 		}
-
 	}
 
+	public class RecursiveIterator implements Iterator<BookNode>
+	{
+		Deque<BookNode> queue = new ArrayDeque<>();
+
+		public RecursiveIterator(BookNode node)
+		{
+			preorder(root);
+		}
+
+		private void preorder(BookNode node)
+		{
+			queue.addLast(node);
+			if (node.getChildNodes() == null || node.getChildNodes().isEmpty())
+			{
+				return;
+			}
+			
+			for(BookNode child : node.getChildNodes())
+			{
+				preorder(child);
+			}
+
+		}
+
+		@Override
+		public boolean hasNext()
+		{
+			return !queue.isEmpty();
+		}
+
+		@Override
+		public BookNode next()
+		{
+			return queue.removeFirst();
+		}
+	}
 }

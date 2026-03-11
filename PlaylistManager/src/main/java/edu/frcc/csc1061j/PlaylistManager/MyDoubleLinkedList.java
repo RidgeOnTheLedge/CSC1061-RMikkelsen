@@ -353,12 +353,11 @@ public class MyDoubleLinkedList<E> implements List<E>, Iterable<E>
 		return index;
 	}
 
-	// IMPLEMENT
 	@Override
 	public boolean remove(Object obj)
 	{
 		Node node = head;
-		for (int i = 0; i < size; i++)
+		while (node != null)
 		{
 			if (equals(obj, node.data))
 			{
@@ -366,30 +365,30 @@ public class MyDoubleLinkedList<E> implements List<E>, Iterable<E>
 			}
 			node = node.next;
 		}
+
 		if (node == null)
 		{
 			return false;
 		}
-		if (head == node)
+
+		if (head == tail) // only one element
 		{
-			if (tail == head)
-			{
-				tail = null;
-			}
+			head = null;
+			tail = null;
+		} else if (node == head)
+		{
 			head = head.next;
 			head.prev = null;
+		} else if (node == tail)
+		{
+			tail = node.prev;
+			tail.next = null;
 		} else
 		{
-			if (node == tail)
-			{
-				tail = node.prev;
-			}
 			node.prev.next = node.next;
-			if (node.next != null)
-			{
-				node.next.prev = node.prev;
-			}
+			node.next.prev = node.prev;
 		}
+
 		size--;
 		return true;
 	}
@@ -398,33 +397,37 @@ public class MyDoubleLinkedList<E> implements List<E>, Iterable<E>
 	@Override
 	public E remove(int index)
 	{
-		// TODO: FILL THIS IN!
 		E element = get(index);
-		if (index == 0)
+
+		if (index == 0) // removing head
 		{
-			if (tail == head)
+			if (head == tail) // only one element
 			{
+				head = null;
 				tail = null;
+			} else
+			{
+				head = head.next;
+				head.prev = null;
 			}
-			head = head.next;
-			head.prev = null;
 		} else
 		{
 			Node node = getNode(index - 1);
-			if (node.next == tail)
+			Node target = node.next;
+
+			node.next = target.next;
+
+			if (target.next != null)
+			{
+				target.next.prev = node;
+			} else // removing tail
 			{
 				tail = node;
 			}
-			node.next = node.next.next;
-			if (node.next != null)
-			{
-				node.next.prev = node;
-			}
 		}
+
 		size--;
 		return element;
-
-		// return null;
 	}
 
 	@Override
