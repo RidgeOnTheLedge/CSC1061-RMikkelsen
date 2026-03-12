@@ -56,7 +56,7 @@ public class PlayListManager
 		playlist.add(song);
 	}
 
-	public void remove(Scanner scnr)
+	public void remove(int index)
 	{
 		if(playlist.isEmpty())
 		{
@@ -64,15 +64,15 @@ public class PlayListManager
 			return;
 		}
 		
-		play();
-		System.out.println("Enter Song Number to Remove: ");
-		int userInput = scnr.nextInt() - 1;
-		if(userInput < 0 || userInput > playlist.size())
+		// If user selects an invalid song then method will return
+		if(index < 0 || index >= playlist.size())
 		{
 			System.out.println("Invalid Song Number");
 			return;
 		}
-		playlist.remove(userInput);
+		
+		playlist.remove(index);
+		System.out.println("Song removed");
 	}
 
 	public MyDoubleLinkedList<Song> getPlaylist()
@@ -84,20 +84,22 @@ public class PlayListManager
 	{
 		System.out.println("Enter File Name: ");
 		String name = scnr.next();
+		scnr.nextLine();
 
 		try (FileOutputStream fileOut = new FileOutputStream(name, false))
 		{
 			PrintWriter printer = new PrintWriter(fileOut);
 			printer.print(toString());
 			printer.flush();
+			System.out.println("File Saved");
 		} catch (FileNotFoundException e)
 		{
 			System.out.println(e.getMessage());
-			System.exit(-1);
+			return;
 		} catch (IOException e1)
 		{
 			System.out.println(e1.getMessage());
-			System.exit(-1);
+			return;
 		}
 	}
 
@@ -105,6 +107,7 @@ public class PlayListManager
 	{
 		System.out.println("Enter File Name: ");
 		String fileName = scnr.next();
+		scnr.nextLine();
 
 		try (BufferedReader reader = new BufferedReader(new FileReader(fileName)))
 		{
@@ -117,19 +120,22 @@ public class PlayListManager
 					continue;
 				}
 
-				String[] tokens = line.split(",");
+				String[] tokens = line.split(",", 2);
+				if(tokens.length < 2)
+				{
+					continue;
+				}
+				
 				Song song = new Song(tokens[0], tokens[1]);
 				playlist.add(song);
 			}
-
+			System.out.println("File Loaded");
 			return playlist;
 		} catch (IOException e)
 		{
 			System.out.println(e.getMessage());
-			System.exit(-1);
+			return playlist;
 		}
-
-		return null;
 	}
 
 	/**
