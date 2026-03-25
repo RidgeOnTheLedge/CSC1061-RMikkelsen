@@ -151,6 +151,14 @@ public class MyHashMap<K, V> implements Map<K, V>
 	@Override
 	public V put(K key, V value)
 	{
+
+		// Key does not exist, we need to add entry
+		// rehash()
+		if ((double) size / (double) buckets.length > LOAD_FACTOR_THRESHOLD)
+		{
+			rehash();
+		}
+
 		// Set hashVal positive hashCode
 		int hashVal = Math.abs(key.hashCode());
 
@@ -172,10 +180,6 @@ public class MyHashMap<K, V> implements Map<K, V>
 			}
 		}
 
-		// Key does not exist, we need to add entry
-		// TODO Check if the load factor threshold has been exceeded
-		// and take action
-		// rehash()
 		if (bucket == null)
 		{
 			bucket = new LinkedList<Entry<K, V>>();
@@ -188,7 +192,28 @@ public class MyHashMap<K, V> implements Map<K, V>
 		return null;
 	}
 
-	// private void rehash()
+	@SuppressWarnings("unchecked")
+	private void rehash()
+	{
+		LinkedList<Entry<K, V>>[] oldBuckets = buckets;
+		buckets = new LinkedList[oldBuckets.length * 2];
+
+		size = 0;
+		for (LinkedList<Entry<K, V>> bucket : oldBuckets)
+		{
+			if (bucket != null)
+			{
+				for (Entry<K, V> entry : bucket)
+				{
+					if (entry != null)
+					{
+						put(entry.getKey(), entry.getValue());
+					}
+				}
+			}
+		}
+	}
+
 	@Override
 	public void putAll(Map<? extends K, ? extends V> m)
 	{
