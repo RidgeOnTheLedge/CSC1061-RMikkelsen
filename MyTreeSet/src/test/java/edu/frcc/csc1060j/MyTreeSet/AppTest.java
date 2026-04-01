@@ -1,4 +1,4 @@
-package edu.frcc.csc1060j.TreeMap;
+package edu.frcc.csc1060j.MyTreeSet;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

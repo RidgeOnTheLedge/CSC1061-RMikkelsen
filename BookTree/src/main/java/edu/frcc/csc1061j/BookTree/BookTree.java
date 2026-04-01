@@ -132,8 +132,8 @@ public class BookTree implements Iterable<BookNode>
 			{
 				return;
 			}
-			
-			for(BookNode child : node.getChildNodes())
+
+			for (BookNode child : node.getChildNodes())
 			{
 				preorder(child);
 			}
