@@ -1,12 +1,15 @@
 package edu.frcc.csc1060j.MyTreeSet;
 
+import java.awt.geom.QuadCurve2D;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Queue;
 import java.util.Set;
 
-public class MyTreeSet<E extends Comparable<E>> implements Set<E>
+public class MyTreeSet<E extends Comparable<E>> implements Set<E> 
 {
 	private Node root = null;
 	private int size = 0;
@@ -25,6 +28,7 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 		}
 	}
 
+	
 	public int getTreeHeight()
 	{
 		return root.height;
@@ -87,6 +91,48 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 		return true;
 	}
 
+	@Override
+	public Iterator<E> iterator()
+	{
+		return new InOrder();
+	}
+	
+	private class InOrder implements Iterator<E>
+	{
+
+		private Queue<E> queue = new ArrayDeque<>();
+		
+		public InOrder()
+		{
+			inorder(root);
+		}
+		
+		private void inorder(Node node)
+		{
+			if(node == null)
+			{
+				return;
+			}
+			
+			inorder(node.lChild);
+			queue.add(node.data);
+			inorder(node.rChild);
+			
+		}
+		@Override
+		public boolean hasNext()
+		{
+			return !queue.isEmpty();
+		}
+
+		@Override
+		public E next()
+		{
+			return queue.remove();
+		}
+		
+	}
+	
 	private void updateHeight(Node node)
 	{
 		if (node.lChild == null && node.rChild == null)
@@ -94,7 +140,7 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 			node.height = 0;
 		} else if (node.lChild == null)
 		{
-			node.height = node.lChild.height + 1;
+			node.height = node.rChild.height + 1;
 		} else if (node.rChild == null)
 		{
 			node.height = node.lChild.height + 1;
@@ -152,10 +198,10 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 			case 2:
 				if (balanceFactor(current.rChild) >= 0)
 				{
-					// Right right imbalance
+					// TODO: Right right imbalance
 				} else
 				{
-					// Right left imbalance
+					// TODO: Right left imbalance
 				}
 				break;
 			}
@@ -227,6 +273,7 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 		updateHeight(gp);
 		updateHeight(par);
 	}
+	
 	@Override
 	public boolean addAll(Collection<? extends E> arg0)
 	{
@@ -255,12 +302,7 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 		return false;
 	}
 
-	@Override
-	public Iterator<E> iterator()
-	{
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public boolean remove(Object arg0)

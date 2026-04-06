@@ -16,7 +16,7 @@ public class SentimentAnalyzer
 		Scanner scnr = new Scanner(System.in);
 		int i = 0;
 		List<String> allWords = new ArrayList<>();
-		System.out.println("Enter Text: ");
+		System.out.println("Type Text (When done hit enter and type END): ");
 		while (true)
 		{
 			String userInput = scnr.nextLine();
