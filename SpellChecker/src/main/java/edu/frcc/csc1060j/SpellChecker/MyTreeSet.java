@@ -1,6 +1,5 @@
-package edu.frcc.csc1060j.MyTreeSet;
+package edu.frcc.csc1060j.SpellChecker;
 
-import java.awt.geom.QuadCurve2D;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +29,8 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 
 	public int getTreeHeight()
 	{
-		return root.height;
+		// Check if root exists, if not return -1 	
+		return (root == null) ? -1 : root.height;
 	}
 
 	@Override
@@ -48,6 +48,7 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 	@Override
 	public boolean add(E e)
 	{
+		path.clear();
 		if (root == null)
 		{
 			root = new Node(e);
@@ -98,7 +99,6 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 
 	private class InOrder implements Iterator<E>
 	{
-
 		private Queue<E> queue = new ArrayDeque<>();
 
 		public InOrder()
@@ -135,19 +135,11 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 
 	private void updateHeight(Node node)
 	{
-		if (node.lChild == null && node.rChild == null)
-		{
-			node.height = 0;
-		} else if (node.lChild == null)
-		{
-			node.height = node.rChild.height + 1;
-		} else if (node.rChild == null)
-		{
-			node.height = node.lChild.height + 1;
-		} else
-		{
-			node.height = Math.max(node.lChild.height, node.rChild.height) + 1;
-		}
+		node.height = Math.max(height(node.lChild), height(node.rChild)) + 1;
+	}
+	private int height(Node n)
+	{
+		return (n == null) ? -1: n.height;
 	}
 
 	private int balanceFactor(Node node)
@@ -172,7 +164,7 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 
 	private void balancePath()
 	{
-		for (int i = path.size() - 1; i > 0; i--)
+		for (int i = path.size() - 1; i >= 0; i--)
 		{
 			Node current = path.get(i);
 			updateHeight(current);
@@ -183,7 +175,7 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 				parent = path.get(i - 1);
 			}
 
-			int balanceFactor = balanceFactor(path.get(i));
+			int balanceFactor = balanceFactor(current);
 
 			switch (balanceFactor) {
 			case -2:
@@ -232,8 +224,7 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 
 		gp.rChild = par.lChild;
 		par.lChild = gp;
-
-		updateHeight(par.rChild);
+		
 		updateHeight(gp);
 		updateHeight(par);
 	}
@@ -261,7 +252,6 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 		gp.lChild = par.rChild;
 		par.rChild = gp;
 
-		updateHeight(par.lChild);
 		updateHeight(gp);
 		updateHeight(par);
 	}
@@ -293,18 +283,17 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 		child.lChild = par;
 		child.rChild = gp;
 
-		updateHeight(gp);
 		updateHeight(par);
+		updateHeight(gp);
 		updateHeight(child);
 	}
-	
+
 	private void balanceRL(Node node, Node parent)
 	{
 		Node ggp = parent;
 		Node gp = node;
 		Node par = gp.rChild;
 		Node child = par.lChild;
-		
 
 		if (gp == root)
 		{
@@ -326,11 +315,10 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 		child.lChild = gp;
 		child.rChild = par;
 
-		updateHeight(gp);
 		updateHeight(par);
+		updateHeight(gp);
 		updateHeight(child);
 	}
-
 
 	@Override
 	public boolean addAll(Collection<? extends E> arg0)
@@ -347,9 +335,29 @@ public class MyTreeSet<E extends Comparable<E>> implements Set<E>
 	}
 
 	@Override
-	public boolean contains(Object arg0)
+	public boolean contains(Object obj)
 	{
-		// TODO Auto-generated method stub
+		E value = (E) obj;
+		
+		Node node = root;
+		while(node != null)
+		{
+			int compare = value.compareTo(node.data);
+			
+			if(compare < 0)
+			{
+				node = node.lChild;
+			}
+			else if(compare > 0)
+			{
+				node = node.rChild;
+			}
+			else
+			{
+				return true;
+			}
+			
+		}
 		return false;
 	}
 

@@ -15,13 +15,15 @@ public class MyTreeSetTest
 		ts.add(2);
 		ts.add(3);
 		ts.add(9);
+		ts.add(10);
+		ts.add(19);
+		ts.add(12);
 		
 		System.out.println("Tree Height: " + ts.getTreeHeight());
 		
 		for(Integer value : ts)
 		{
 			System.out.print(value + " ");
-			
 		}
 	}
 }
