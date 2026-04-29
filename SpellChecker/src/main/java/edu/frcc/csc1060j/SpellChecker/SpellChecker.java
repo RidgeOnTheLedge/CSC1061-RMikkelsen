@@ -13,17 +13,17 @@ public class SpellChecker
 {
 	public static void main(String[] args)
 	{
-		if(args.length == 0)
+		if (args.length == 0)
 		{
 			return;
 		}
-		
-		//File name is listOfWords.txt
+
+		// File name is listOfWords.txt
 		MyTreeSet<String> ts = loadFile(args[0]);
 
 		System.out.println("Tree Height: " + ts.getTreeHeight());
 		Scanner scnr = new Scanner(System.in);
-		
+
 		List<String> allWords = new ArrayList<>();
 		System.out.println("Type Text (When done hit enter and type END): ");
 
@@ -36,12 +36,12 @@ public class SpellChecker
 			{
 				break;
 			}
-			
+
 			for (String w : words)
 			{
 				allWords.add(w);
 			}
-			
+
 			for (String w : allWords)
 			{
 				if (!ts.contains(w))
