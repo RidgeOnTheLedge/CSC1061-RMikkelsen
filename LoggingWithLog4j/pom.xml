@@ -5,12 +5,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>edu.frcc.csc1060j</groupId>
-	<artifactId>MyPriortyQueue</artifactId>
+	<groupId>edu.frcc.csc1061j</groupId>
+	<artifactId>LoggingWithLog4j</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
-	<name>MyPriortyQueue</name>
-	<description>A simple MyPriortyQueue.</description>
+	<name>LoggingWithLog4j</name>
+	<description>A simple LoggingWithLog4j.</description>
 	<!-- FIXME change it to the project's website -->
 	<url>http://www.example.com</url>
 
@@ -22,18 +22,18 @@
 
 	<dependencies>
 		<!-- Source:
-		https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>2.25.4</version>
-			<scope>compile</scope>
-		</dependency>
-		<!-- Source:
 		https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
+			<version>2.25.4</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- Source:
+		https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-api -->
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
 			<version>2.25.4</version>
 			<scope>compile</scope>
 		</dependency>

@@ -17,6 +17,7 @@ public class CourseScheduler_Driver
 		}
 		
 		String fileName = args[0];
+
 		Graph<String> graph = loadFile(fileName);
 		
 		CourseScheduler courseSch = new CourseScheduler(graph);
